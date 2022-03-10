@@ -40,17 +40,44 @@ Forward reads are numbered 1, reverse are numbered 2.
 
 ## IL shallow sequencing
 
+Low coverage sequencing performed to define the boundaries of the introgression region in the IL5 line (IL2 in Hermann et al 2013, https://doi.org/10.1016/j.cub.2013.03.069).
+
+
 ### Sequencing
+
+Library preparation and sequencing were performed by the Next Generation Sequencing platform of the University of Bern, with settings:
+- whole genome sequencing library
+- Paired end
+- **length?**
+- Illumina HiSeq 3000
 
 
 ### Raw reads
 
-Have been uploaded to NCBI SRA under BioProject [](https://www.ncbi.nlm.nih.gov/bioproject/)
+Have been uploaded to NCBI SRA under BioProject [PRJNA705072](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA705072).
 
+- SRR13809747: sample KMH1
+- SRR13809746: sample KMH2
+- SRR13809741: sample KMH3
+- SRR13809740: sample KMH4
+- SRR13809739: sample KMH5
+- SRR13809738: sample KMH6
+- SRR13809737: sample KMH7
+- SRR13809736: sample KMH8
+- SRR13809735: sample KMH9
+- SRR13809734: sample KMH10
+- SRR13809745: sample KMH11
+- SRR13809744: sample KMH12
+- SRR13809743: sample KMH13
+- SRR13809742: sample KMH14
+
+### Alignment
+
+### Variant calling
 
 ## RNAseq
 
-To identify genes differentially expressed in the necrotic and healthy plants we performed an RNAseq experiment.
+To identify genes differentially expressed in the necrotic and healthy plants from the introgression lines we performed an RNAseq experiment.
 The samples used are plants constituting the progeny of a single selfed plant heterozygous for the introgression IL2 (see article materials and methods for details).
 In the progeny of this heterozygous plants we have some plants homozygous exserta, homozygous axillaris and heterozygous in the introgression.
 Three plants per genotype were selected, and one leaf per plant was collected. The tissue was collected from leaves of the homozygous axillaris IL when they just started displaying necrotic symptoms, and equivalent tissue was collected from the other genotypes.
@@ -65,17 +92,17 @@ Was performed at the [Lausanne Genomics Technologies Facility](https://wp.unil.c
 
 ### Raw reads
 
-Have been uploaded to NCBI SRA under BioProject [](https://www.ncbi.nlm.nih.gov/bioproject/).
+Have been uploaded to NCBI SRA under BioProject [PRJNA705649](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA705649).
 
-- SRR13861738:
-- SRR13861739:
-- SRR13861740:
-- SRR13861741:
-- SRR13861742:
-- SRR13861743:
-- SRR13861744:
-- SRR13861745:
-- SRR13861746:
+- SRR13861738: heterozygous introgression, replicate 3
+- SRR13861739: heterozygous introgression, replicate 2
+- SRR13861740: heterozygous introgression, replicate 1
+- SRR13861741: homozygous exserta introgression, replicate 3
+- SRR13861742: homozygous exserta introgression, replicate 2
+- SRR13861743: homozygous exserta introgression, replicate 1
+- SRR13861744: homozygous axillaris introgression, replicate 3
+- SRR13861745: homozygous axillaris introgression, replicate 2
+- SRR13861746: homozygous axillaris introgression, replicate 1
 
 ### Alignment
 
