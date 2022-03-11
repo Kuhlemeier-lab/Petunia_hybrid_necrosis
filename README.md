@@ -30,7 +30,14 @@ Are available on NCBI BioProject [PRJNA708139](https://www.ncbi.nlm.nih.gov/biop
 
 Forward reads are numbered 1, reverse are numbered 2.
 
+Read quality asessment performed with fastqc.
+Reads trimmed with trimmomatic parameters `LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36`.
+Script bsa01_quality_trim.sh
+
 ### Read alignment
+
+Genome index with STAR: bsa02_STAR_index.sh
+
 
 ### Variant calling
 
@@ -115,4 +122,9 @@ Have been uploaded to NCBI SRA under BioProject [PRJNA705649](https://www.ncbi.n
 
 ### GO term analysis
 
+
+## Software versions
+fastqc/0.11.7
+trimmomatic/0.36
+STAR/2.6.0c
 
