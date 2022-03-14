@@ -38,6 +38,14 @@ Script bsa01_quality_trim.sh
 
 Genome index with STAR: bsa02_STAR_index.sh
 
+Alignment with bsa03_STARmapping.sh
+
+```
+--sjdbOverhang 149
+--outFilterType BySJout
+--outFilterMultimapNmax 20
+--twopassMode Basic
+```
 
 ### Variant calling
 
@@ -124,7 +132,10 @@ Have been uploaded to NCBI SRA under BioProject [PRJNA705649](https://www.ncbi.n
 
 
 ## Software versions
+
 fastqc/0.11.7
+
 trimmomatic/0.36
+
 STAR/2.6.0c
 
