@@ -49,6 +49,14 @@ Alignment with bsa03_STARmapping.sh
 
 ### Variant calling
 
+Genome dictionary created with bsa04_readGroup_index.sh, same script to add read group info in the bam files.
+
+bsa05_markdup.sh mark duplicated reads and split cigar reads
+
+bsa06_SNPcalling.sh
+
+
+
 ### Bulk segregant analysis
 
 
@@ -139,3 +147,10 @@ trimmomatic/0.36
 
 STAR/2.6.0c
 
+picard-tools/2.18.11
+
+samtools/1.8
+
+vcftools/0.1.15
+
+GenomeAnalysisTK/4.0.4.0
