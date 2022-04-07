@@ -17,7 +17,7 @@ We performed RNA extraction (see article materials and methods for details), and
 Was performed by Novogene, with the Eukaryotic RNA-seq (polyA enriched library prep).
 - paired end reads
 - 150 bp read length
-- 250-300 bp inster cDNA library
+- 250-300 bp insert cDNA library
 - Sanger Illumina 1.9 encoding
 
 ### Raw reads
@@ -49,11 +49,35 @@ Alignment with bsa03_STARmapping.sh
 
 ### Variant calling
 
+We called variants using GATK v4.0.4.0, using the haplotypeCaller and filtering out variants based on quality values because Petunia does not have a high quality variants database to use BQSR.
+
 Genome dictionary created with bsa04_readGroup_index.sh, same script to add read group info in the bam files.
 
-bsa05_markdup.sh mark duplicated reads and split cigar reads
+bsa05_markdup.sh mark duplicated reads and split cigar reads.
 
-bsa06_SNPcalling.sh
+bsa06_SNPcalling.sh with parameters
+
+```
+--dont-use-soft-clipped-bases
+--pcr-indel-model NONE
+--stand-call-conf 30
+--native-pair-hmm-threads 4
+```
+
+We then plot the distribution of the quality values of the variants to know if the GATK suggested filters are fine. This is done with bsa07_SNPselect_qualityplot.sh which uses plot_vcfq_distribution.R to make the plots.
+
+We then apply the filters for quality with bsa08_SNPfilter.sh. Filters:
+```
+-window 10 
+-cluster 3 
+--filter-expression "QD<2.0" 
+--filter-name "QD" 
+--filter-expression "FS>30.0" 
+--filter-name "FS" 
+```
+Then we select variants passing filters and only the biallelic SNPs.
+
+We then keep only variants where the read depth is at least 100 and then we thin the dataset to 100bp.
 
 
 
