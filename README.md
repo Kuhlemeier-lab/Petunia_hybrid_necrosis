@@ -83,6 +83,7 @@ Then we select variants passing filters and only the biallelic SNPs. We then kee
 
 Number of variants in each dataset is listed in [variant_numbers.csv](data/variant_numbers.csv).
 
+The final set of variants is available in [BSA_SNP_biallelic_gatkselected_minDP100_thin100.recode.vcf](data/BSA_SNP_biallelic_gatkselected_minDP100_thin100.recode.vcf).
 
 ### Bulk segregant analysis
 
