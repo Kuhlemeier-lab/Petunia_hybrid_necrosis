@@ -32,15 +32,15 @@ Forward reads are numbered 1, reverse are numbered 2.
 
 Read quality asessment performed with fastqc.
 Reads trimmed with trimmomatic parameters `LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36`.
-Script bsa01_quality_trim.sh
+Script [bsa01_quality_trim.sh](code/bsa01_quality_trim.sh).
 
 Read numbers before and after cleaning listed in [read_alignment_stats.csv](data/read_alignment_stats.csv).
 
 ### Read alignment
 
-Genome index with STAR: bsa02_STAR_index.sh
+Genome index with STAR: [bsa02_STAR_index.sh](code/bsa02_STAR_index.sh).
 
-Alignment with bsa03_STARmapping.sh
+Alignment with [bsa03_STARmapping.sh](code/bsa03_STARmapping.sh).
 
 ```
 --sjdbOverhang 149
@@ -51,15 +51,17 @@ Alignment with bsa03_STARmapping.sh
 
 Aligned reads number in [read_alignment_stats.csv](data/read_alignment_stats.csv).
 
+We then add the read group info in each bam file with [bsa04_readGroup_index.sh](code/bsa04_readGroup_index.sh).
+
+And mark duplicated reads with [bsa05_markdup.sh](code/bsa05_markdup.sh).
+
 ### Variant calling
 
 We called variants using GATK v4.0.4.0, using the haplotypeCaller and filtering out variants based on quality values because Petunia does not have a high quality variants database to use BQSR.
 
-Genome dictionary created with bsa04_readGroup_index.sh, same script to add read group info in the bam files.
+Genome dictionary created in a previous step with [bsa04_readGroup_index.sh](code/bsa04_readGroup_index.sh), same script to add read group info in the bam files.
 
-bsa05_markdup.sh mark duplicated reads and split cigar reads.
-
-bsa06_SNPcalling.sh with parameters
+We called variants with [bsa06_SNPcalling.sh](code/bsa06_SNPcalling.sh), with parameters
 
 ```
 --dont-use-soft-clipped-bases
@@ -68,9 +70,10 @@ bsa06_SNPcalling.sh with parameters
 --native-pair-hmm-threads 4
 ```
 
-We then plot the distribution of the quality values of the variants to know if the GATK suggested filters are fine. This is done with bsa07_SNPselect_qualityplot.sh which uses plot_vcfq_distribution.R to make the [plots](data/snp_quality.pdf).
+We then plot the distribution of the quality values of the variants to know if the GATK suggested filters are fine. This is done with [bsa07_SNPselect_qualityplot.sh](code/bsa07_SNPselect_qualityplot.sh) which uses [plot_vcfq_distribution.R](code/plot_vcfq_distribution.R) to make the [plots](data/snp_quality.pdf).
 
-We then apply the filters for quality with bsa08_SNPfilter.sh. Filters:
+We then apply the filters for quality with [bsa08_SNPfilter.sh](code/bsa08_SNPfilter.sh). Filters:
+
 ```
 -window 10 
 -cluster 3 
@@ -79,6 +82,7 @@ We then apply the filters for quality with bsa08_SNPfilter.sh. Filters:
 --filter-expression "FS>30.0" 
 --filter-name "FS" 
 ```
+
 Then we select variants passing filters and only the biallelic SNPs. We then keep only variants where the read depth is at least 100 and then we thin the dataset to 100bp.
 
 Number of variants in each dataset is listed in [variant_numbers.csv](data/variant_numbers.csv).
@@ -87,7 +91,9 @@ The final set of variants is available in [BSA_SNP_biallelic_gatkselected_minDP1
 
 ### Bulk segregant analysis
 
-Is performed in R.
+Is performed in R, with script [bsa09_analysis.R](code/bsa09_analysis.R).
+
+
 
 
 ## IL shallow sequencing
@@ -183,3 +189,7 @@ samtools/1.8
 vcftools/0.1.15
 
 GenomeAnalysisTK/4.0.4.0
+
+R on the computing cluster: R/3.4.2
+
+
