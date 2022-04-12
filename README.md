@@ -34,6 +34,8 @@ Read quality asessment performed with fastqc.
 Reads trimmed with trimmomatic parameters `LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36`.
 Script bsa01_quality_trim.sh
 
+Read numbers before and after cleaning listed in [reads_alignment_stats.csv](data/reads_alignment_stats.csv).
+
 ### Read alignment
 
 Genome index with STAR: bsa02_STAR_index.sh
@@ -46,6 +48,8 @@ Alignment with bsa03_STARmapping.sh
 --outFilterMultimapNmax 20
 --twopassMode Basic
 ```
+
+Aligned reads number in [reads_alignment_stats.csv](data/reads_alignment_stats.csv).
 
 ### Variant calling
 
@@ -64,7 +68,7 @@ bsa06_SNPcalling.sh with parameters
 --native-pair-hmm-threads 4
 ```
 
-We then plot the distribution of the quality values of the variants to know if the GATK suggested filters are fine. This is done with bsa07_SNPselect_qualityplot.sh which uses plot_vcfq_distribution.R to make the plots.
+We then plot the distribution of the quality values of the variants to know if the GATK suggested filters are fine. This is done with bsa07_SNPselect_qualityplot.sh which uses plot_vcfq_distribution.R to make the [plots](data/snp_quality.pdf).
 
 We then apply the filters for quality with bsa08_SNPfilter.sh. Filters:
 ```
@@ -75,14 +79,14 @@ We then apply the filters for quality with bsa08_SNPfilter.sh. Filters:
 --filter-expression "FS>30.0" 
 --filter-name "FS" 
 ```
-Then we select variants passing filters and only the biallelic SNPs.
+Then we select variants passing filters and only the biallelic SNPs. We then keep only variants where the read depth is at least 100 and then we thin the dataset to 100bp.
 
-We then keep only variants where the read depth is at least 100 and then we thin the dataset to 100bp.
-
+Number of variants in each dataset is listed in [variant_numbers.csv](data/variant_numbers.csv).
 
 
 ### Bulk segregant analysis
 
+Is performed in R.
 
 
 ## IL shallow sequencing
