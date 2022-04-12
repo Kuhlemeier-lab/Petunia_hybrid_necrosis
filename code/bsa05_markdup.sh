@@ -13,7 +13,7 @@
 # Partition
 #SBATCH --partition=epyc2
 
-#SBATCH --account=ips_ck
+#SBATCH --account=xxx
 #SBATCH --chdir=/xxx/necrosis
 #SBATCH --output=code/bsa05_markdup_%A_%a.out
 #SBATCH --error=code/bsa05_markdup_%A_%a.err
