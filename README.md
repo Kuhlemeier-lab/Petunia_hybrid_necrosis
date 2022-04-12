@@ -34,7 +34,7 @@ Read quality asessment performed with fastqc.
 Reads trimmed with trimmomatic parameters `LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36`.
 Script bsa01_quality_trim.sh
 
-Read numbers before and after cleaning listed in [reads_alignment_stats.csv](data/reads_alignment_stats.csv).
+Read numbers before and after cleaning listed in [read_alignment_stats.csv](data/read_alignment_stats.csv).
 
 ### Read alignment
 
@@ -49,7 +49,7 @@ Alignment with bsa03_STARmapping.sh
 --twopassMode Basic
 ```
 
-Aligned reads number in [reads_alignment_stats.csv](data/reads_alignment_stats.csv).
+Aligned reads number in [read_alignment_stats.csv](data/read_alignment_stats.csv).
 
 ### Variant calling
 
