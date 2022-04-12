@@ -1,0 +1,3 @@
+sample,condition,forward_read_file,reverse_read_file,forward_raw_reads_number,reverse_raw_reads_number,forward_surviving_reads_number,reverse_surviving_reads_number,forward_surviving_reads_proportion,reverse_surviving_reads_proportion,uniquely_mapped_reads
+P.axNxPex,healthy,SRR13907523_1,SRR13907523_2,99793549,99793549,97211792,97211792,0.974129019101225,0.974129019101225,89762289
+P.axNxPex,necrotic,SRR13907524_1,SRR13907524_2,102743039,102743039,100667358,100667358,0.979797356393167,0.979797356393167,91210596
