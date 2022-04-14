@@ -192,4 +192,16 @@ GenomeAnalysisTK/4.0.4.0
 
 R on the computing cluster: R/3.4.2
 
+R on the local machine: R/3.3.3
+
+## R libraries used
+
+For the versions, see at the bottom of the R scripts in the [code](code/) folder.
+
+- vcfUtils custom package, available here [vcfUtils.tar.gz](code/vcfUtils.tar.gz)
+- tidyr Wickham H, Girlich M (2022). tidyr: Tidy Messy Data. https://tidyr.tidyverse.org, https://github.com/tidyverse/tidyr
+- dplyr Wickham H, François R, Henry L, Müller K (2022). dplyr: A Grammar of Data Manipulation. https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
+- ggplot2 Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. ISBN 978-3-319-24277-4, https://ggplot2.tidyverse.org
+- optparse https://cran.r-project.org/package=optparse
+
 
