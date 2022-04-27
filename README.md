@@ -30,11 +30,11 @@ Are available on NCBI BioProject [PRJNA708139](https://www.ncbi.nlm.nih.gov/biop
 
 Forward reads are numbered 1, reverse are numbered 2.
 
-Read quality asessment performed with fastqc.
+Read quality assessment performed with fastqc.
 Reads trimmed with trimmomatic parameters `LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36`.
 Script [bsa01_quality_trim.sh](code/bsa01_quality_trim.sh).
 
-Read numbers before and after cleaning listed in [read_alignment_stats.csv](data/read_alignment_stats.csv).
+Read numbers before and after cleaning listed in [bsa_read_alignment_stats.csv](data/bsa_read_alignment_stats.csv).
 
 ### Read alignment
 
@@ -49,7 +49,7 @@ Alignment with [bsa03_STARmapping.sh](code/bsa03_STARmapping.sh).
 --twopassMode Basic
 ```
 
-Aligned reads number in [read_alignment_stats.csv](data/read_alignment_stats.csv).
+Aligned reads number in [bsa_read_alignment_stats.csv](data/bsa_read_alignment_stats.csv).
 
 We then add the read group info in each bam file with [bsa04_readGroup_index.sh](code/bsa04_readGroup_index.sh).
 
@@ -70,7 +70,7 @@ We called variants with [bsa06_SNPcalling.sh](code/bsa06_SNPcalling.sh), with pa
 --native-pair-hmm-threads 4
 ```
 
-We then plot the distribution of the quality values of the variants to know if the GATK suggested filters are fine. This is done with [bsa07_SNPselect_qualityplot.sh](code/bsa07_SNPselect_qualityplot.sh) which uses [plot_vcfq_distribution.R](code/plot_vcfq_distribution.R) to make the [plots](data/snp_quality.pdf).
+We then plot the distribution of the quality values of the variants to know if the GATK suggested filters are fine. This is done with [bsa07_SNPselect_qualityplot.sh](code/bsa07_SNPselect_qualityplot.sh) which uses [plot_vcfq_distribution.R](code/plot_vcfq_distribution.R) to make the [plots](data/bsa_snp_quality.pdf).
 
 We then apply the filters for quality with [bsa08_SNPfilter.sh](code/bsa08_SNPfilter.sh). Filters:
 
@@ -85,7 +85,7 @@ We then apply the filters for quality with [bsa08_SNPfilter.sh](code/bsa08_SNPfi
 
 Then we select variants passing filters and only the biallelic SNPs. We then keep only variants where the read depth is at least 100 and then we thin the dataset to 100bp.
 
-Number of variants in each dataset is listed in [variant_numbers.csv](data/variant_numbers.csv).
+Number of variants in each dataset is listed in [bsa_variant_numbers.csv](data/bsa_variant_numbers.csv).
 
 The final set of variants is available in [BSA_SNP_biallelic_gatkselected_minDP100_thin100.recode.vcf](data/BSA_SNP_biallelic_gatkselected_minDP100_thin100.recode.vcf).
 
@@ -93,6 +93,7 @@ The final set of variants is available in [BSA_SNP_biallelic_gatkselected_minDP1
 
 Is performed in R, with script [bsa09_analysis.R](code/bsa09_analysis.R).
 
+The plots shown in the manuscript are obtained with script [bsa10_plots_manuscript.R](code/bsa10_plots_manuscript.R).
 
 
 
@@ -129,7 +130,19 @@ Have been uploaded to NCBI SRA under BioProject [PRJNA705072](https://www.ncbi.n
 - SRR13809743: sample KMH13
 - SRR13809742: sample KMH14
 
+Forward reads are numbered 1, reverse are numbered 2.
+
+Reads renamed with [il01_rename_raw_reads.sh](code/il01_rename_raw_reads.sh).
+
+Read quality assessment performed with fastqc. Reads trimmed with trimmomatic parameters `LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:100`.
+Script [il02_fastqc_trim.sh](code/il02_fastqc_trim.sh). Summary of raw and trimmed reads obtained with fastq-stats, [il03_stats_index_genome.sh](code/il03_stats_index_genome.sh).
+
+Read numbers before and after cleaning listed in [il_read_alignment_stats.csv](data/il_read_alignment_stats.csv). **to do**
+
+
 ### Alignment
+
+Genome index done in script [il03_stats_index_genome.sh](code/il03_stats_index_genome.sh).
 
 ### Variant calling
 
@@ -176,7 +189,11 @@ Have been uploaded to NCBI SRA under BioProject [PRJNA705649](https://www.ncbi.n
 
 ## Software versions
 
+bwa/0.7.17
+
 fastqc/0.11.7
+
+fastq-stats ea-utils/1.1.2
 
 trimmomatic/0.36
 
