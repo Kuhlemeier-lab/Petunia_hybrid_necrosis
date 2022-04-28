@@ -1,6 +1,10 @@
 # Petunia axillaris X P. exserta hybrid necrosis
 
-Code used in the study of Petunia axillaris X P. exserta hybrid necrosis
+Code used in the study of Petunia axillaris X P. exserta hybrid necrosis, associated with **publication**.
+
+Authors: Chaobin Li, Mathieu Hanemian, Marta Binaghi, Cris Kuhlemeier
+
+Author of this page: Marta Binaghi
 
 ## BSR-Seq
 
@@ -96,6 +100,7 @@ Is performed in R, with script [bsa09_analysis.R](code/bsa09_analysis.R).
 The plots shown in the manuscript are obtained with script [bsa10_plots_manuscript.R](code/bsa10_plots_manuscript.R).
 
 
+---
 
 ## IL shallow sequencing
 
@@ -107,7 +112,7 @@ Low coverage sequencing performed to define the boundaries of the introgression 
 Library preparation and sequencing were performed by the Next Generation Sequencing platform of the University of Bern, with settings:
 - whole genome sequencing library
 - Paired end
-- **length?**
+- 150 bp long reads
 - Illumina HiSeq 3000
 
 
@@ -145,6 +150,15 @@ Read numbers before and after cleaning listed in [il_read_alignment_stats.csv](d
 Genome index done in script [il03_stats_index_genome.sh](code/il03_stats_index_genome.sh).
 
 ### Variant calling
+
+
+
+
+
+
+
+
+---
 
 ## RNAseq
 
