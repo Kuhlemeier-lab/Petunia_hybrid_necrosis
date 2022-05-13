@@ -32,7 +32,7 @@ module load vital-it
 module load SequenceAnalysis/ea-utils/1.1.2		#fastq-stats
 module add UHTS/Aligner/bwa/0.7.17 
 module add UHTS/Analysis/samtools/1.8
-module add UHTS/Analysis/picard-tools/2.9.0 
+module add UHTS/Analysis/picard-tools/2.18.11
 module list 2>&1
 
 ## Raw reads quality statistics
