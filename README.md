@@ -142,19 +142,24 @@ Reads renamed with [il01_rename_raw_reads.sh](code/il01_rename_raw_reads.sh).
 Read quality assessment performed with fastqc. Reads trimmed with trimmomatic parameters `LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:100`.
 Script [il02_fastqc_trim.sh](code/il02_fastqc_trim.sh). Summary of raw and trimmed reads obtained with fastq-stats, [il03_stats_index_genome.sh](code/il03_stats_index_genome.sh).
 
-Read numbers before and after cleaning listed in [il_read_alignment_stats.csv](data/il_read_alignment_stats.csv). **to do**
+Read numbers before and after cleaning listed in [il_read_alignment_stats.csv](data/il_read_alignment_stats.csv).
 
 
 ### Alignment
 
-Genome index done in script [il03_stats_index_genome.sh](code/il03_stats_index_genome.sh).
+Genome index done in script [il03_stats_index_genome.sh](code/il03_stats_index_genome.sh), alignment performed with BWA MEM, with default parameters in script [il04_align.sh](code/il04_align.sh).
+
+The proportion of reads aligned is shown in the table [il_read_alignment_stats.csv](data/il_read_alignment_stats.csv).
 
 ### Variant calling
 
+Is performed with GATK 4.0.4.0, following GATK best practices for organisms without a database of high quality variants. Variants are called in ERC mode.
+Variant calling in script [il05_call_variants.sh](code/il05_call_variants.sh), then the single samples are combined in a vcf file with [il06_combineGvcfs.sh](il06_combineGvcfs.sh). The same script is also extracting the quality values to plot them and verify that the hard filters of GATK are suitable for the dataset. The plotting is done with an R script [plot_vcfq_distribution.R](code/plot_vcfq_distribution.R). The plots are shown in [il_snp_quality.pdf](data/il_snp_quality.pdf) and [il_indel_quality.pdf](data/il_indel_quality.pdf).
 
+I then apply the hard filters to the variants in script [il07_filter_variants.sh](code/il07_filter_variants.sh). In this script we also perform some additional steps. In particular we filter the variants in order to select only those that are associated with the necrotic and healthy phenotype. To do so, we simply require the variant to be homozygous reference in the necrotic samples and homozygous alternate in the healthy samples. We also perform the opposite selection, just to check.
+The resulting dataset of variants which follow the phenotype of the samples (necrotic is homozygous reference) is in [il_clean_phenotype2_necroticIsReference.vcf](data/il_clean_phenotype2_necroticIsReference.vcf). **to add**
 
-
-
+We then also annotate the variants using SnpEff. **to do**
 
 
 
@@ -203,27 +208,18 @@ Have been uploaded to NCBI SRA under BioProject [PRJNA705649](https://www.ncbi.n
 
 ## Software versions
 
-bwa/0.7.17
+- bwa/0.7.17
+- fastqc/0.11.7
+- fastq-stats ea-utils/1.1.2
+- GenomeAnalysisTK/4.0.4.0
+- picard-tools/2.18.11 or 2.9.0, see scripts to know which version was used
+- R on the computing cluster: R/3.4.2
+- R on the local machine: R/3.3.3
+- samtools/1.8
+- STAR/2.6.0c
+- trimmomatic/0.36
+- vcftools/0.1.15
 
-fastqc/0.11.7
-
-fastq-stats ea-utils/1.1.2
-
-trimmomatic/0.36
-
-STAR/2.6.0c
-
-picard-tools/2.18.11
-
-samtools/1.8
-
-vcftools/0.1.15
-
-GenomeAnalysisTK/4.0.4.0
-
-R on the computing cluster: R/3.4.2
-
-R on the local machine: R/3.3.3
 
 ## R libraries used
 
