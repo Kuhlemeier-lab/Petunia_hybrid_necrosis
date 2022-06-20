@@ -184,18 +184,30 @@ Was performed at the [Lausanne Genomics Technologies Facility](https://wp.unil.c
 
 Have been uploaded to NCBI SRA under BioProject [PRJNA705649](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA705649).
 
-- SRR13861738: heterozygous introgression, replicate 3
-- SRR13861739: heterozygous introgression, replicate 2
-- SRR13861740: heterozygous introgression, replicate 1
-- SRR13861741: homozygous exserta introgression, replicate 3
-- SRR13861742: homozygous exserta introgression, replicate 2
-- SRR13861743: homozygous exserta introgression, replicate 1
-- SRR13861744: homozygous axillaris introgression, replicate 3
-- SRR13861745: homozygous axillaris introgression, replicate 2
-- SRR13861746: homozygous axillaris introgression, replicate 1
+- SRR13861738: heterozygous introgression, replicate 3 (kmh9)
+- SRR13861739: heterozygous introgression, replicate 2 (kmh8)
+- SRR13861740: heterozygous introgression, replicate 1 (kmh7)
+- SRR13861741: homozygous exserta introgression, replicate 3 (kmh6)
+- SRR13861742: homozygous exserta introgression, replicate 2 (kmh5)
+- SRR13861743: homozygous exserta introgression, replicate 1 (kmh4)
+- SRR13861744: homozygous axillaris introgression, replicate 3 (kmh3)
+- SRR13861745: homozygous axillaris introgression, replicate 2 (kmh2)
+- SRR13861746: homozygous axillaris introgression, replicate 1 (kmh1)
+
+Raw reads are renamed with script [rs01_rename_raw_reads.sh](code/rs01_rename_raw_reads.sh).
+
+Quality control and trimming in script [rs02_fastqc_trim.sh](code/rs02_fastqc_trim.sh).
+
+The read numbers before and after trimming are reported in [rs_read_alignment_stats.csv](data/rs_read_alignment_stats.csv). TO ADD
 
 ### Alignment
 
+Note that I build another STAR index for the genome because in the genomeGenerate step they require the read length and here it is 125 bp. So I use script [rs03_STAR_genome_index.sh](code/rs03_STAR_genome_index.sh) to redo the genome index.
+
+The alignment is then performed with [
+
+
+Aligned read numbers reported in [rs_read_alignment_stats.csv](data/rs_read_alignment_stats.csv).
 
 ### Read count
 
