@@ -1,0 +1,10 @@
+sample,genotype,forward_read_file,raw_reads_number,surviving_reads_number,surviving_reads_proportion,uniquely_mapped_reads,mapped_reads_proportion
+kmh1,homozygous axillaris,SRR13861746,25308970,24276300,0.96,22299440,0.92
+kmh2,homozygous axillaris,SRR13861745,23838117,22947657,0.96,21247751,0.93
+kmh3,homozygous axillaris,SRR13861744,23720965,22681576,0.96,21020655,0.93
+kmh4,homozygous exserta,SRR13861743,25092853,23950487,0.95,22098512,0.92
+kmh5,homozygous exserta,SRR13861742,25952152,24783207,0.95,22889271,0.92
+kmh6,homozygous exserta,SRR13861741,24309381,23436970,0.96,21718052,0.93
+kmh7,heterozygous introgression,SRR13861740,26525711,25044620,0.94,23239721,0.93
+kmh8,heterozygous introgression,SRR13861739,25844559,24347503,0.94,22186280,0.91
+kmh9,heterozygous introgression,SRR13861738,25531492,24441697,0.96,22631057,0.93
