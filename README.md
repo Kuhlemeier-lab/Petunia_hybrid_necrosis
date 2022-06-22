@@ -6,6 +6,8 @@ Authors: Chaobin Li, Mathieu Hanemian, Marta Binaghi, Cris Kuhlemeier
 
 Author of this page: Marta Binaghi
 
+Genome sequence and annotation used in all the analyses: **to add**
+
 ## BSR-Seq
 
 To identify the regions of the genome asssociated with the presence and abscence of the necrosis phenotype, we applied a BSR-Seq approach. This is similar to a BSA (bulk segregant analysis) but is performed on RNA-seq data. The approach is very similar to that used by Soyk et al. 2017 [doi.org/10.1038/ng.3733](https://doi.org/10.1038/ng.3733).
@@ -172,6 +174,10 @@ The samples used are plants constituting the progeny of a single selfed plant he
 In the progeny of this heterozygous plants we have some plants homozygous exserta, homozygous axillaris and heterozygous in the introgression.
 Three plants per genotype were selected, and one leaf per plant was collected. The tissue was collected from leaves of the homozygous axillaris IL when they just started displaying necrotic symptoms, and equivalent tissue was collected from the other genotypes.
 
+RNA was extracted with **to add**
+
+The RNAseq data were used to perform a differential expression (DE) analysis and the results were then used to perform a GO term analysis.
+
 ### Sequencing
 
 Was performed at the [Lausanne Genomics Technologies Facility](https://wp.unil.ch/gtf/).
@@ -196,22 +202,67 @@ Have been uploaded to NCBI SRA under BioProject [PRJNA705649](https://www.ncbi.n
 
 Raw reads are renamed with script [rs01_rename_raw_reads.sh](code/rs01_rename_raw_reads.sh).
 
-Quality control and trimming in script [rs02_fastqc_trim.sh](code/rs02_fastqc_trim.sh).
+Quality control and trimming in script [rs02_fastqc_trim.sh](code/rs02_fastqc_trim.sh). Parameters for trimming:
 
-The read numbers before and after trimming are reported in [rs_read_alignment_stats.csv](data/rs_read_alignment_stats.csv). TO ADD
+```
+trimmomatic SE \
+  -threads 4 \
+  -phred33 \
+  kmh${SLURM_ARRAY_TASK_ID}.fastq.gz \
+  kmh${SLURM_ARRAY_TASK_ID}_trim.fastq.gz \
+  LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 \
+  ILLUMINACLIP:TruSeq3-SE.fa:2:30:3
+```
+
+
+The read numbers before and after trimming are reported in [rs_read_alignment_stats.csv](data/rs_read_alignment_stats.csv).
 
 ### Alignment
 
-Note that I build another STAR index for the genome because in the genomeGenerate step they require the read length and here it is 125 bp. So I use script [rs03_STAR_genome_index.sh](code/rs03_STAR_genome_index.sh) to redo the genome index.
+Note that I build another STAR index for the genome because in the genomeGenerate step they require the read length and here it is 125 bp. So I use script [rs03_STAR_genome_index.sh](code/rs03_STAR_genome_index.sh) to redo the genome index. Parameters:
 
-The alignment is then performed with [
+```
+STAR --runMode genomeGenerate \
+  --runThreadN 4 \
+  --genomeDir ${scdir}/data/genomes/Pax_125bp \
+  --genomeFastaFiles ${scdir}/data/genomes/Peax402INV.fasta \
+  --sjdbGTFfile ${scdir}/data/genomes/peaxi162AQ_Peax402INV.cds.gff \
+  --sjdbOverhang 124 \
+  --sjdbGTFtagExonParentTranscript Parent \
+  --genomeChrBinNbits 16 --limitGenomeGenerateRAM 24000000000
+```
 
+The alignment is then performed with [rs04_STARmapping.sh](code/rs04_STARmapping.sh). Aligned read numbers reported in [rs_read_alignment_stats.csv](data/rs_read_alignment_stats.csv). Alignment performed with parameters:
 
-Aligned read numbers reported in [rs_read_alignment_stats.csv](data/rs_read_alignment_stats.csv).
+```
+STAR --genomeDir data/genomes/Pax_125bp \
+    --runThreadN 16 \
+    --readFilesIn data/raw/rs_rawreads/kmh${SLURM_ARRAY_TASK_ID}_trim.fastq.gz \
+    --outFilterType BySJout \
+    --outFilterMultimapNmax 20 \
+    --outSAMtype BAM SortedByCoordinate \
+    --twopassMode Basic \
+    --outFileNamePrefix data/raw/rs_aligned_reads/kmh${SLURM_ARRAY_TASK_ID}_trim_STAR_ \
+    --readFilesCommand zcat \
+    --genomeLoad NoSharedMemory
+```
 
 ### Read count
 
+Is performed with subread featureCounts function, in script [rs05_featureCounts.sh](code/rs05_featureCounts.sh). Parameters are:
+
+```
+featureCounts -T 16 \
+    -t gene \
+    -s 2 \
+    -g ID \
+    -a ${scdir}/data/genomes/peaxi162AQ_Peax402INV.cds.gff \
+    -o ${scdir}/data/raw/rs_counts/rs_counts.txt kmh1_trim_STAR_Aligned.sortedByCoord.out.bam kmh2_trim_STAR_Aligned.sortedByCoord.out.bam kmh3_trim_STAR_Aligned.sortedByCoord.out.bam kmh4_trim_STAR_Aligned.sortedByCoord.out.bam kmh5_trim_STAR_Aligned.sortedByCoord.out.bam kmh6_trim_STAR_Aligned.sortedByCoord.out.bam kmh7_trim_STAR_Aligned.sortedByCoord.out.bam kmh8_trim_STAR_Aligned.sortedByCoord.out.bam kmh9_trim_STAR_Aligned.sortedByCoord.out.bam
+```
+
 ### Differential expression analysis
+
+
 
 ### Allele-specific expression analysis
 
@@ -229,6 +280,7 @@ Aligned read numbers reported in [rs_read_alignment_stats.csv](data/rs_read_alig
 - R on the local machine: R/3.3.3
 - samtools/1.8
 - STAR/2.6.0c
+- subread/1.6.0
 - trimmomatic/0.36
 - vcftools/0.1.15
 
