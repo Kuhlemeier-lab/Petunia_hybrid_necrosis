@@ -262,11 +262,10 @@ featureCounts -T 16 \
 
 ### Differential expression analysis
 
+The DE analysis is done with DESeq2 in the R markdown script [rs06_DE_analysis.Rmd](code/rs06_DE_analysis.Rmd). The output is in [rs06_DE_analysis.html](code/rs06_DE_analysis.html).
 
+The results including raw gene counts, normalised gene counts and DE of the comparison axillaris VS exserta are available in table [rs_DE_results_axVSex.csv](data/rs_DE_results_axVSex.csv).
 
-### Allele-specific expression analysis
-
-### GO term analysis
 
 
 ## Software versions
@@ -289,10 +288,14 @@ featureCounts -T 16 \
 
 For the versions, see at the bottom of the R scripts in the [code](code/) folder.
 
-- vcfUtils custom package, available here [vcfUtils.tar.gz](code/vcfUtils.tar.gz)
-- tidyr Wickham H, Girlich M (2022). tidyr: Tidy Messy Data. https://tidyr.tidyverse.org, https://github.com/tidyverse/tidyr
+- DESeq2 Love MI, Huber W, Anders S (2014). “Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2.” Genome Biology, 15, 550. doi: 10.1186/s13059-014-0550-8. 
 - dplyr Wickham H, François R, Henry L, Müller K (2022). dplyr: A Grammar of Data Manipulation. https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
 - ggplot2 Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. ISBN 978-3-319-24277-4, https://ggplot2.tidyverse.org
 - optparse https://cran.r-project.org/package=optparse
+- pheatmap https://cran.r-project.org/package=pheatmap
+- PoiClaClu https://cran.r-project.org/package=PoiClaClu
+- RColorBrewer https://cran.r-project.org/package=RColorBrewer
+- tidyr Wickham H, Girlich M (2022). tidyr: Tidy Messy Data. https://tidyr.tidyverse.org, https://github.com/tidyverse/tidyr
+- vcfUtils custom package, available here [vcfUtils.tar.gz](code/vcfUtils.tar.gz)
 
 
