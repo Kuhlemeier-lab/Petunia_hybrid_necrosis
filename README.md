@@ -159,11 +159,16 @@ Is performed with GATK 4.0.4.0, following GATK best practices for organisms with
 Variant calling in script [il05_call_variants.sh](code/il05_call_variants.sh), then the single samples are combined in a vcf file with [il06_combineGvcfs.sh](il06_combineGvcfs.sh). The same script is also extracting the quality values to plot them and verify that the hard filters of GATK are suitable for the dataset. The plotting is done with an R script [plot_vcfq_distribution.R](code/plot_vcfq_distribution.R). The plots are shown in [il_snp_quality.pdf](data/il_snp_quality.pdf) and [il_indel_quality.pdf](data/il_indel_quality.pdf).
 
 I then apply the hard filters to the variants in script [il07_filter_variants.sh](code/il07_filter_variants.sh). In this script we also perform some additional steps. In particular we filter the variants in order to select only those that are associated with the necrotic and healthy phenotype. To do so, we simply require the variant to be homozygous reference in the necrotic samples and homozygous alternate in the healthy samples. We also perform the opposite selection, just to check.
-The resulting dataset of variants which follow the phenotype of the samples (necrotic is homozygous reference) is in [il_clean_phenotype2_necroticIsReference.vcf](data/il_clean_phenotype2_necroticIsReference.vcf). **to add**
+The resulting datasets of variants which follow the phenotype of the samples (necrotic is homozygous reference) is in [il_clean_phenotype2_necroticIsReference.vcf](data/il_clean_phenotype2_necroticIsReference.vcf). The opposite selection is available in [il_clean_phenotype1_necroticIsAlternate.vcf](data/il_clean_phenotype1_necroticIsAlternate.vcf).
+**to add**
 
-We then also annotate the variants using SnpEff. **to do**
+### Variant annotation
 
+We annotate the variants using [SnpEff](https://pcingola.github.io/SnpEff/).
 
+The genome of Petunia axillaris in the version that we used is not available as pre-built in snpEff so we used script [il08a_snpEff_database_build.sh](code/il08a_snpEff_database_build.sh) to build a custom database starting from the fasta and gff file. Notice that if you want to do this, you need to modify the config file accordingly. See instructions in the snpEff documentation.
+
+We then annotate both vcf files that follow the phenotype with script [il08b_annotate_vcf.sh](code/il08b_annotate_vcf.sh).
 
 ---
 
