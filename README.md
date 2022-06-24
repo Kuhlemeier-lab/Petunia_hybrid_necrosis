@@ -162,13 +162,13 @@ I then apply the hard filters to the variants in script [il07_filter_variants.sh
 The resulting datasets of variants which follow the phenotype of the samples (necrotic is homozygous reference) is in [il_clean_phenotype2_necroticIsReference.vcf](data/il_clean_phenotype2_necroticIsReference.vcf). The opposite selection is available in [il_clean_phenotype1_necroticIsAlternate.vcf](data/il_clean_phenotype1_necroticIsAlternate.vcf).
 **to add**
 
-### Variant annotation
+### Variant annotation MAYBE WILL NOT BE INCLUDED
 
 We annotate the variants using [SnpEff](https://pcingola.github.io/SnpEff/).
 
 The genome of Petunia axillaris in the version that we used is not available as pre-built in snpEff so we used script [il08a_snpEff_database_build.sh](code/il08a_snpEff_database_build.sh) to build a custom database starting from the fasta and gff file. Notice that if you want to do this, you need to modify the config file accordingly. See instructions in the snpEff documentation.
 
-We then annotate both vcf files that follow the phenotype with script [il08b_annotate_vcf.sh](code/il08b_annotate_vcf.sh).
+We then annotate the vcf files with script [il08b_annotate_vcf.sh](code/il08b_annotate_vcf.sh).
 
 ---
 
