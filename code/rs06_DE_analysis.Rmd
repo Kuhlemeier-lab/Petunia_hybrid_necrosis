@@ -1,0 +1,280 @@
+---
+title: "RNAseq analysis, hybrid necrosis project"
+author: "Marta Binaghi"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  html_document: default
+---
+
+Last modified: June 23rd, 2022
+
+# Setup
+
+```{r setup, warning = FALSE}
+library("DESeq2")
+library("ggplot2")
+library("PoiClaClu")
+library("pheatmap")
+library("RColorBrewer")
+
+workdir <- "/xxx/necrosis/"
+
+knitr::opts_knit$set(root.dir = workdir)
+knitr::opts_chunk$set(root.dir = workdir)
+
+```
+
+# Import read counts
+
+```{r import counts}
+myCountsFile <- "data/raw/rs_counts/rs_counts.txt"
+raw_counts <- read.table(myCountsFile,
+                         header = T,
+                         comment.char = "#",      # needed to remove first line of file
+                         stringsAsFactors = F)
+# set geneid as row names
+rownames(raw_counts) <- raw_counts$Geneid
+# remove not-needed columns, leave only the counts
+raw_counts <- raw_counts[ , c(7:dim(raw_counts)[2])]
+
+# rename columns with simpler and meaningful sample names
+# extract original name "KMHX"
+original_id <- gsub("(kmh\\d+)_trim_STAR.*",
+                  "\\1",
+                  colnames(raw_counts))
+# add sample name
+new_names <- rep("a", times = length(original_id))
+new_names[grepl("(1|2|3)", original_id)] <- "ax-"
+new_names[grepl("(4|5|6)", original_id)] <- "ex-"
+new_names[grepl("(7|8|9)", original_id)] <- "het-"
+
+# add replicate
+new_names[grepl("(1|4|7)", original_id)] <- paste0(new_names[grepl("(1|4|7)", original_id)], "1")
+new_names[grepl("(2|5|8)", original_id)] <- paste0(new_names[grepl("(2|5|8)", original_id)], "2")
+new_names[grepl("(3|6|9)", original_id)] <- paste0(new_names[grepl("(3|6|9)", original_id)], "3")
+
+colnames(raw_counts) <- new_names
+rm(new_names, original_id)
+```
+
+# Make deseq datasets
+
+```{r deseq dataset}
+# make a dataframe containing the condition group of each sample
+sampleGroup <- sub("([A-Za-z]+)-[1-3]", "\\1", colnames(raw_counts))
+colData <- data.frame(condition = factor(sampleGroup))
+# make DeSeq dataframe
+dds_axexhet <- DESeqDataSetFromMatrix(raw_counts, colData, formula(~condition))
+# run deseq
+dds_axexhet <- DESeq(dds_axexhet)
+# save non- and normalised counts
+counts_raw <- counts(dds_axexhet, 
+                     normalized = FALSE)
+counts_normalised <- counts(dds_axexhet, 
+                            normalized = TRUE)
+```
+
+# Exploratory analysis
+
+Show read count per sample.
+
+```{r read count plot}
+# read count per sample
+barplot(colSums(counts_raw))
+```
+
+Make a boxplot to show counts raw and normalised per sample per gene
+
+```{r boxplot counts}
+## adding the boxplots
+par(mfrow=c(1,2))
+boxplot(log2(counts_normalised +1 ),
+        ylab = "Log2 of counts",
+        main = "normalized", cex = .6)
+boxplot(log2(counts_raw + 1), 
+        ylab = "Log2 of counts",
+        main = "read counts only", cex = .6)
+```
+
+Observe the PCA of the 500 most highly expressed genes. This is done with 
+transformed counts in order to address the dependence of the variance on the 
+mean (high mean has high variance).
+
+```{r PCA}
+# apply a regularized log transformation, ignoring information about experimental groups
+rld_axexhet <- rlog(dds_axexhet, 
+                    blind = TRUE) 
+# make the plot
+p <- function(){plotPCA(rld_axexhet, intgroup = c("condition")) +
+  ggtitle("PCA of rlog of 500 most variably expressed genes")
+}
+# save the plot in figures/rs/rs_plot_DE_PCA_500_axexhet.png
+png("figures/rs/rs_plot_DE_PCA_500_axexhet.png")
+p()
+dev.off()
+p()
+```
+
+The plot shows that one biological replicate of the axillaris genotype is not
+clustering with the other 2. We therefore observe a heatmap of the transformed 
+counts of the highest expressed genes, and then observe a Poisson distance 
+matrix of the normalised counts to see if that sample is problematic.
+
+
+```{r heatmap}
+select <- order(rowMeans(counts_normalised),
+                decreasing = TRUE)[1:20]
+pl <- function(){pheatmap(assay(rld_axexhet)[select,], 
+         cluster_rows = FALSE, show_rownames = FALSE,
+         cluster_cols = FALSE,
+         main = "rlog transformed counts of 20 most highly expressed genes")
+}
+png("figures/rs/rs_plot_heatmap_rld_axexhet.png")
+pl()
+dev.off()
+```
+
+```{r plot heatmap}
+pl()
+```
+
+```{r poisson}
+poisd <- PoissonDistance(t(counts_normalised))
+samplePoisDistMatrix <- as.matrix( poisd$dd )
+rownames(samplePoisDistMatrix) <- colnames(raw_counts)
+colnames(samplePoisDistMatrix) <- colnames(raw_counts)
+
+pl <- function() {pheatmap(samplePoisDistMatrix,
+         clustering_distance_rows=poisd$dd,
+         clustering_distance_cols=poisd$dd,
+         main = "Heatmap of the Poisson distance between normalised counts of samples")
+}
+png("figures/rs/rs_plot_poisson_distance_heatmap_axexhet.png")
+pl()
+dev.off()
+```
+
+```{r plot poisson}
+pl()
+```
+
+We can see that the sample "ax-1" is really different from the others of the
+same genotype. We therefore exclude it from the analysis as it is an outlier.
+
+# Re-do DESeq dataset without the outlier sample
+
+Exclude the outlier biological replicate and run DESeq again.
+
+```{r deseq clean}
+colData_clean <- data.frame(condition = colData[-1 , ])
+# make DeSeq dataframe
+raw_counts_clean <- raw_counts[ , colnames(raw_counts) != "ax-1"]
+dds_clean <- DESeqDataSetFromMatrix(raw_counts_clean, 
+                                    colData_clean,
+                                    formula(~condition))
+# set reference level
+dds_clean$condition <- relevel(dds_clean$condition, ref="ex")
+# run deseq
+dds_clean <- DESeq(dds_clean)
+# extract non- and normalised counts
+counts_clean_raw <- counts(dds_clean, 
+                     normalized = FALSE)
+counts_clean_normalised <- counts(dds_clean, 
+                            normalized = TRUE)
+```
+
+We can now recalculate the distance matrix and show it as heatmap to check
+that the samples are homogeneous.
+
+```{r poisson clean}
+poisd <- PoissonDistance(t(counts_clean_normalised))
+samplePoisDistMatrix <- as.matrix( poisd$dd )
+rownames(samplePoisDistMatrix) <- colnames(raw_counts_clean)
+colnames(samplePoisDistMatrix) <- colnames(raw_counts_clean)
+
+pl <- function() {pheatmap(samplePoisDistMatrix,
+         clustering_distance_rows=poisd$dd,
+         clustering_distance_cols=poisd$dd,
+         main = "Heatmap of the Poisson distance between normalised counts of cleaned samples")
+}
+png("figures/rs/rs_plot_poisson_distance_heatmap_clean_samples_axexhet.png")
+pl()
+dev.off()
+```
+
+
+```{r plot poisson clean}
+pl()
+```
+
+
+Now we see that the samples across replicates are homogeneous.
+
+We display the MA plot for the copmparison axillaris VS exserta and heterozygous
+VS exserta.
+
+```{r MA plot}
+# MA-plot of mean expression against log-fold change where axillaris is compared
+# to exserta (ie log2 shows DE in axillaris compared to exserta)
+# Genes with p-adjusted value < alpha will be shown in red.
+res_clean_axex <- results(dds_clean,
+                     contrast = c("condition", "ax", "ex"),
+                     alpha = 0.05)
+pl1 <- function(){plotMA(res_clean_axex,
+       main = "Axillaris VS exserta")
+}
+png("figures/rs/rs_plot_DE_MA_axVSex.png")
+pl1()
+dev.off()
+
+# also compare heterozygous versus exserta
+res_clean_hetex <- results(dds_clean,
+                     contrast = c("condition", "het", "ex"),
+                     alpha = 0.05)
+pl2 <- function(){
+  plotMA(res_clean_hetex,
+       main = "Heterozygous VS exserta")
+}
+png("figures/rs/rs_plot_DE_MA_hetVSex.png")
+pl2()
+dev.off()
+
+par(mfrow=c(1,2))
+pl1()
+pl2()
+
+```
+
+We then export the raw, normalised counts and the DE data to a file.
+
+```{r export results}
+#raw counts
+rawc <- counts_clean_raw
+colnames(rawc) <- paste0("rawCounts_",
+                         colnames(rawc))
+# normalised counts
+normc <- counts_clean_normalised
+colnames(normc) <- paste0("normCounts_",
+                         colnames(normc))
+
+# DE comparing axillaris VS exserta
+resDE <- as.data.frame(results(dds_clean,
+                 contrast = c("condition", "ax", "ex")))
+colnames(resDE) <- paste0("de_axVSex_",
+                          colnames(resDE))
+combined_results <- cbind(rawc,
+                          normc,
+                          resDE)
+# save to table
+write.csv(combined_results,
+            "data/clean/rs_DE_results_axVSex.csv",
+            quote = FALSE, 
+            row.names = TRUE)
+```
+
+
+# Session info
+
+```{r info}
+sessionInfo()
+```
