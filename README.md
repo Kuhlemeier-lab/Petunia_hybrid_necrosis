@@ -283,6 +283,7 @@ The results including raw gene counts, normalised gene counts and DE of the comp
 - R on the computing cluster: R/3.4.2
 - R on the local machine: R/3.3.3
 - samtools/1.8
+- SnpEff/4.3t
 - STAR/2.6.0c
 - subread/1.6.0
 - trimmomatic/0.36
