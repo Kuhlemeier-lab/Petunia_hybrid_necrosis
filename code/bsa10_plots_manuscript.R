@@ -3,7 +3,7 @@
 ## April 14th, 2022
 ## Last edited on April 26th, 2022
 ## 
-## Copyright (C) 2019 Marta Binaghi <marta.binaghi at ips.unibe.ch>
+## Copyright (C) 2022 Marta Binaghi <marta.binaghi at ips.unibe.ch>
 ## 
 ## BSRseq plot for manuscript
 
@@ -34,7 +34,7 @@ thresh <- read.table("data/raw/bsa_analysis/thresholds_allele_frequency.txt",
 # genome info
 # import chromosomes lengths to calculate cumulative positions from the index
 # of the genome
-fai <- read.table("data/genomes/Peax402INV.fasta.fai",
+fai <- read.table("data/genomes/Peax403.fasta.fai",
                   header = FALSE,
                   stringsAsFactors = FALSE,
                   colClasses = c("character", "integer", "NULL", "NULL", "NULL"))
