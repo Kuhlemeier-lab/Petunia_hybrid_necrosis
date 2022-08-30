@@ -39,7 +39,7 @@ picard-tools MarkDuplicates \
     TMP_DIR=${scdir}/data/raw/bsa_aligned_reads
 
 GenomeAnalysisTK SplitNCigarReads \
-    -R ${scdir}/data/genomes/Peax402INV.fasta \
+    -R ${scdir}/data/genomes/Peax403.fasta \
     -I SRR139075${SLURM_ARRAY_TASK_ID}.md.bam \
     -O SRR139075${SLURM_ARRAY_TASK_ID}.sp.bam \
     --TMP_DIR ${scdir}/data/raw/bsa_aligned_reads
