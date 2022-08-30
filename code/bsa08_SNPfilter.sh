@@ -28,7 +28,7 @@ module add UHTS/Analysis/vcftools/0.1.15
 echo -e "## `date`\n## Filter variants."
 
 GenomeAnalysisTK VariantFiltration \
-    -R ${scdir}/data/genomes/Peax402INV.fasta \
+    -R ${scdir}/data/genomes/Peax403.fasta \
     -V ${scdir}/data/raw/bsa_variants/BSA_SNP_raw.vcf \
     -window 10 \
     -cluster 3 \
@@ -39,7 +39,7 @@ GenomeAnalysisTK VariantFiltration \
     -O ${scdir}/data/raw/bsa_variants/BSA_SNP_raw_gatkfiltered.vcf
 
 GenomeAnalysisTK SelectVariants \
-    -R ${scdir}/data/genomes/Peax402INV.fasta \
+    -R ${scdir}/data/genomes/Peax403.fasta \
     -V ${scdir}/data/raw/bsa_variants/BSA_SNP_raw_gatkfiltered.vcf \
     --restrict-alleles-to BIALLELIC \
     --select-type-to-include SNP \
