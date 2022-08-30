@@ -14,7 +14,7 @@
 
 # Partition
 #SBATCH --partition=epyc2
-#SBATCH --account=ips_ck
+#SBATCH --account=xxx
 #SBATCH --chdir=/xxx/necrosis
 #SBATCH --output=code/il06_combineGvcf_%A.out
 #SBATCH --error=code/il06_combineGvcf_%A.err
@@ -36,7 +36,7 @@ module list 2>&1
 
 echo -e "\n## Combine GVCFs\n"
 
-genome=${scdir}/data/genomes/Peax402INV.fasta
+genome=${scdir}/data/genomes/Peax403.fasta
 
 GenomeAnalysisTK CombineGVCFs \
      -R ${genome} \
