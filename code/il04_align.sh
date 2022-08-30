@@ -15,7 +15,7 @@
 #SBATCH --array=1-14
 # Partition
 #SBATCH --partition=epyc2
-#SBATCH --account=ips_ck
+#SBATCH --account=xxx
 #SBATCH --chdir=/xxx/necrosis
 #SBATCH --output=code/il04_align_%A_%a.out
 #SBATCH --error=code/il04_align_%A_%a.err
@@ -40,7 +40,7 @@ if [ ! -d ${scdir}/data/raw/il_alignedreads ]; then
   mkdir ${scdir}/data/raw/il_alignedreads
 fi
 
-genome=${scdir}/data/genomes/Peax402INV.fasta
+genome=${scdir}/data/genomes/Peax404.fasta
 
 # align reads with BWA
 bwa mem -t 4 \
