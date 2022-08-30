@@ -16,7 +16,7 @@
 #SBATCH --array=1-14
 # Partition
 #SBATCH --partition=epyc2
-#SBATCH --account=ips_ck
+#SBATCH --account=xxx
 #SBATCH --chdir=/xxx/necrosis
 #SBATCH --output=code/il05_call_variants_%A_%a.out
 #SBATCH --error=code/il05_call_variants_%A_%a.err
@@ -33,7 +33,7 @@ module load vital-it
 module add UHTS/Analysis/GenomeAnalysisTK/4.0.4.0 
 module list 2>&1
 
-genome=${scdir}/data/genomes/Peax402INV.fasta
+genome=${scdir}/data/genomes/Peax403.fasta
 
 if [ ! -d ${scdir}/data/raw/il_variants ]; then
   mkdir ${scdir}/data/raw/il_variants
