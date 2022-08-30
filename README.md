@@ -2,11 +2,11 @@
 
 Code used in the study of Petunia axillaris X P. exserta hybrid necrosis, associated with **publication**.
 
-Authors: Chaobin Li, Mathieu Hanemian, Marta Binaghi, Cris Kuhlemeier
+Authors: Chaobin Li, Marta Binaghi, Vivien Pichon, Gina Cannarozzi, Loreta Brandao de Freitas, Mathieu Hanemian, Cris Kuhlemeier
 
 Author of this page: Marta Binaghi
 
-Genome sequence and annotation used in all the analyses: **to add**
+Genome sequence and annotation used in all the analyses: P. axillaris N version 4.03 (submitted to NCBI).
 
 ## BSR-Seq
 
@@ -101,17 +101,17 @@ Is performed in R, with script [bsa09_analysis.R](code/bsa09_analysis.R).
 
 The plots shown in the manuscript are obtained with script [bsa10_plots_manuscript.R](code/bsa10_plots_manuscript.R).
 
-
 ---
 
-## IL shallow sequencing
+## Shallow whole genome sequencing for fine mapping
 
-Low coverage sequencing performed to define the boundaries of the introgression region in the IL5 line (IL2 in Hermann et al 2013, https://doi.org/10.1016/j.cub.2013.03.069).
+Low coverage sequencing performed to define the boundaries of the introgression region in the IL5 line (Hermann et al 2015, https://link.springer.com/article/10.1007/s00425-015-2251-2).
 
 
 ### Sequencing
 
 Library preparation and sequencing were performed by the Next Generation Sequencing platform of the University of Bern, with settings:
+
 - whole genome sequencing library
 - Paired end
 - 150 bp long reads
@@ -122,20 +122,20 @@ Library preparation and sequencing were performed by the Next Generation Sequenc
 
 Have been uploaded to NCBI SRA under BioProject [PRJNA705072](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA705072).
 
-- SRR13809747: sample KMH1
-- SRR13809746: sample KMH2
-- SRR13809741: sample KMH3
-- SRR13809740: sample KMH4
-- SRR13809739: sample KMH5
-- SRR13809738: sample KMH6
-- SRR13809737: sample KMH7
-- SRR13809736: sample KMH8
-- SRR13809735: sample KMH9
-- SRR13809734: sample KMH10
-- SRR13809745: sample KMH11
-- SRR13809744: sample KMH12
-- SRR13809743: sample KMH13
-- SRR13809742: sample KMH14
+- SRR13809747: sequencing sample KMH1, recombinant line ID 1_A1 (Extended data table 3)
+- SRR13809746: sequencing sample KMH2, recombinant line ID 7_A1 (Extended data table 3)
+- SRR13809741: sequencing sample KMH3, recombinant line ID 18_E3 (Extended data table 3)
+- SRR13809740: sequencing sample KMH4, recombinant line ID 26_E1 (Extended data table 3)
+- SRR13809739: sequencing sample KMH5, recombinant line ID 1_E1 (Extended data table 3)
+- SRR13809738: sequencing sample KMH6, recombinant line ID 7_E1 (Extended data table 3)
+- SRR13809737: sequencing sample KMH7, recombinant line ID 24_E1 (Extended data table 3)
+- SRR13809736: sequencing sample KMH8, recombinant line ID 18_A1 (Extended data table 3)
+- SRR13809735: sequencing sample KMH9, recombinant line ID 10_A1 (Extended data table 3)
+- SRR13809734: sequencing sample KMH10, recombinant line ID 29_A1 (Extended data table 3)
+- SRR13809745: sequencing sample KMH11, recombinant line ID 26_A1 (Extended data table 3)
+- SRR13809744: sequencing sample KMH12, recombinant line ID 25_A1 (Extended data table 3)
+- SRR13809743: sequencing sample KMH13, recombinant line ID 39_A3 (Extended data table 3)
+- SRR13809742: sequencing sample KMH14, recombinant line ID 34_A1 (Extended data table 3)
 
 Forward reads are numbered 1, reverse are numbered 2.
 
@@ -156,32 +156,21 @@ The proportion of reads aligned is shown in the table [il_read_alignment_stats.c
 ### Variant calling
 
 Is performed with GATK 4.0.4.0, following GATK best practices for organisms without a database of high quality variants. Variants are called in ERC mode.
-Variant calling in script [il05_call_variants.sh](code/il05_call_variants.sh), then the single samples are combined in a vcf file with [il06_combineGvcfs.sh](il06_combineGvcfs.sh). The same script is also extracting the quality values to plot them and verify that the hard filters of GATK are suitable for the dataset. The plotting is done with an R script [plot_vcfq_distribution.R](code/plot_vcfq_distribution.R). The plots are shown in [il_snp_quality.pdf](data/il_snp_quality.pdf) and [il_indel_quality.pdf](data/il_indel_quality.pdf).
+Variant calling done with script [il05_call_variants.sh](code/il05_call_variants.sh), then the single samples are combined in a vcf file with [il06_combineGvcfs.sh](code/il06_combineGvcfs.sh). The same script is also extracting the quality values to plot them and verify that the hard filters of GATK are suitable for the dataset. The plotting is done with an R script [plot_vcfq_distribution.R](code/plot_vcfq_distribution.R). The plots are shown in [il_snp_quality.pdf](data/il_snp_quality.pdf) and [il_indel_quality.pdf](data/il_indel_quality.pdf).
 
-I then apply the hard filters to the variants in script [il07_filter_variants.sh](code/il07_filter_variants.sh). In this script we also perform some additional steps. In particular we filter the variants in order to select only those that are associated with the necrotic and healthy phenotype. To do so, we simply require the variant to be homozygous reference in the necrotic samples and homozygous alternate in the healthy samples. We also perform the opposite selection, just to check.
-The resulting datasets of variants which follow the phenotype of the samples (necrotic is homozygous reference) is in [il_clean_phenotype2_necroticIsReference.vcf](data/il_clean_phenotype2_necroticIsReference.vcf). The opposite selection is available in [il_clean_phenotype1_necroticIsAlternate.vcf](data/il_clean_phenotype1_necroticIsAlternate.vcf).
-**to add**
-
-### Variant annotation MAYBE WILL NOT BE INCLUDED
-
-We annotate the variants using [SnpEff](https://pcingola.github.io/SnpEff/).
-
-The genome of Petunia axillaris in the version that we used is not available as pre-built in snpEff so we used script [il08a_snpEff_database_build.sh](code/il08a_snpEff_database_build.sh) to build a custom database starting from the fasta and gff file. Notice that if you want to do this, you need to modify the config file accordingly. See instructions in the snpEff documentation.
-
-We then annotate the vcf files with script [il08b_annotate_vcf.sh](code/il08b_annotate_vcf.sh).
+I then apply the hard filters to the variants in script [il07_filter_variants.sh](code/il07_filter_variants.sh). 
+In order to visualise more easily the boundaries of the introgression, we filter the resulting vcf file to keep only sites on chromosome 2, with a call rate of 100% (all samples have a called genotype at the site), and we extract the homozygous genotype positions.
 
 ---
 
 ## RNAseq
 
 To identify genes differentially expressed in the necrotic and healthy plants from the introgression lines we performed an RNAseq experiment.
-The samples used are plants constituting the progeny of a single selfed plant heterozygous for the introgression IL2 (see article materials and methods for details).
-In the progeny of this heterozygous plants we have some plants homozygous exserta, homozygous axillaris and heterozygous in the introgression.
+The samples used are plants constituting the progeny of a single selfed plant heterozygous for the introgression IL5 (see article materials and methods for details).
+In the progeny of this heterozygous plant we have some plants homozygous exserta, homozygous axillaris and heterozygous in the introgression.
 Three plants per genotype were selected, and one leaf per plant was collected. The tissue was collected from leaves of the homozygous axillaris IL when they just started displaying necrotic symptoms, and equivalent tissue was collected from the other genotypes.
 
-RNA was extracted with **to add**
-
-The RNAseq data were used to perform a differential expression (DE) analysis and the results were then used to perform a GO term analysis.
+The RNAseq data were used to perform a differential expression (DE) analysis.
 
 ### Sequencing
 
@@ -269,14 +258,10 @@ featureCounts -T 16 \
 
 The DE analysis is done with DESeq2 in the R markdown script [rs06_DE_analysis.Rmd](code/rs06_DE_analysis.Rmd). The output is in [rs06_DE_analysis.html](code/rs06_DE_analysis.html).
 
-The results including raw gene counts, normalised gene counts and DE of the comparison axillaris VS exserta are available in table [rs_DE_results_axVSex.csv](data/rs_DE_results_axVSex.csv).
-
-
-
 ## Software versions
 
 - bwa/0.7.17
-- fastqc/0.11.7
+- fastqc/0.11.7l
 - fastq-stats ea-utils/1.1.2
 - GenomeAnalysisTK/4.0.4.0
 - picard-tools/2.18.11 or 2.9.0, see scripts to know which version was used
@@ -303,5 +288,3 @@ For the versions, see at the bottom of the R scripts in the [code](code/) folder
 - RColorBrewer https://cran.r-project.org/package=RColorBrewer
 - tidyr Wickham H, Girlich M (2022). tidyr: Tidy Messy Data. https://tidyr.tidyverse.org, https://github.com/tidyverse/tidyr
 - vcfUtils custom package, available here [vcfUtils.tar.gz](code/vcfUtils.tar.gz)
-
-
