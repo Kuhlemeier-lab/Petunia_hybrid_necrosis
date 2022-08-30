@@ -7,7 +7,7 @@
 ## 
 ## BSRseq analysis in necrosis experiment.
 
-wdir <- "necrosis_peaxiINV/"
+wdir <- "necrosis/"
 setwd(wdir)
 
 # libraries -----------------------------------------------------------------
@@ -73,7 +73,7 @@ stepping_window <- function(data, cutoff, window_size = 20)
 # import genome info ----------------------------------------------------
 # import chromosomes lengths to calculate cumulative positions from the index
 # of the genome
-fai <- read.table("data/genomes/Peax402INV.fasta.fai",
+fai <- read.table("data/genomes/Peax403.fasta.fai",
                   header = FALSE,
                   stringsAsFactors = FALSE,
                   colClasses = c("character", "integer", "NULL", "NULL", "NULL"))
