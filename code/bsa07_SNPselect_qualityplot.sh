@@ -28,14 +28,14 @@ module load R/3.4.2
 echo -e "## `date`\n## Select SNP variants.\n"
 
 GenomeAnalysisTK SelectVariants \
-    -R ${scdir}/data/genomes/Peax402INV.fasta \
+    -R ${scdir}/data/genomes/Peax403.fasta \
     -V ${scdir}/data/raw/bsa_variants/BSA_raw.vcf \
     -O ${scdir}/data/raw/bsa_variants/BSA_SNP_raw.vcf \
     --select-type-to-include SNP
 
 echo -e "\nExtracting a table for quality parameters plotting.\n"
 GenomeAnalysisTK VariantsToTable \
-     -R ${scdir}/data/genomes/Peax402INV.fasta \
+     -R ${scdir}/data/genomes/Peax403.fasta \
      -V ${scdir}/data/raw/bsa_variants/BSA_SNP_raw.vcf \
      -O ${scdir}/data/raw/bsa_variants/BSA_SNP_raw.vcf.table \
      -F CHROM \
