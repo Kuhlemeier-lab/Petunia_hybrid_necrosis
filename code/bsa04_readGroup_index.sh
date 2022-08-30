@@ -26,9 +26,9 @@ module add UHTS/Analysis/samtools/1.8
 
 echo -e "## `date`\n## Preparation of index and dictionary..."
 
-picard-tools CreateSequenceDictionary R=${scdir}/data/genomes/Peax402INV.fasta O=${scdir}/data/genomes/Peax402INV.dict
+picard-tools CreateSequenceDictionary R=${scdir}/data/genomes/Peax403.fasta O=${scdir}/data/genomes/Peax403.dict
 
-samtools faidx ${scdir}/data/genomes/Peax402INV.fasta
+samtools faidx ${scdir}/data/genomes/Peax403.fasta
 
 echo -e "Indexing and dictionary done.\n"
 
