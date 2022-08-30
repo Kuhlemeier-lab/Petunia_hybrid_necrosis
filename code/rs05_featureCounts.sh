@@ -36,7 +36,7 @@ featureCounts -T 16 \
     -t gene \
     -s 2 \
     -g ID \
-    -a ${scdir}/data/genomes/peaxi162AQ_Peax402INV.cds.gff \
+    -a ${scdir}/data/genomes/Peax403.cds.gff \
     -o ${scdir}/data/raw/rs_counts/rs_counts.txt kmh1_trim_STAR_Aligned.sortedByCoord.out.bam kmh2_trim_STAR_Aligned.sortedByCoord.out.bam kmh3_trim_STAR_Aligned.sortedByCoord.out.bam kmh4_trim_STAR_Aligned.sortedByCoord.out.bam kmh5_trim_STAR_Aligned.sortedByCoord.out.bam kmh6_trim_STAR_Aligned.sortedByCoord.out.bam kmh7_trim_STAR_Aligned.sortedByCoord.out.bam kmh8_trim_STAR_Aligned.sortedByCoord.out.bam kmh9_trim_STAR_Aligned.sortedByCoord.out.bam
 
 echo -e "Counting done.\n `date`"
