@@ -32,18 +32,18 @@ module load UHTS/Aligner/STAR/2.6.0c
 ## link the original genome file from a location in the cluster to the current project folder
 mkdir ${scdir}/data/genomes/Pax_125bp
 
-ln -s /xxx/genomes/Peax402INV.fasta ${scdir}/data/genomes/Pax_125bp/Peax402INV.fasta
+ln -s /xxx/genomes/Peax403.fasta ${scdir}/data/genomes/Pax_125bp/Peax403.fasta
 
 ## link the annotation file
-ln -s /xxx/genomes/peaxi162AQ_Peax402INV.cds.gff ${scdir}/data/genomes/Pax_125bp/peaxi162AQ_Peax402INV.cds.gff
+ln -s /xxx/genomes/Peax403.cds.gff ${scdir}/data/genomes/Pax_125bp/Peax403.cds.gff
 
 echo -e "## `date`\n## Genome indexing\n"
 
 STAR --runMode genomeGenerate \
   --runThreadN 4 \
   --genomeDir ${scdir}/data/genomes/Pax_125bp \
-  --genomeFastaFiles ${scdir}/data/genomes/Peax402INV.fasta \
-  --sjdbGTFfile ${scdir}/data/genomes/peaxi162AQ_Peax402INV.cds.gff \
+  --genomeFastaFiles ${scdir}/data/genomes/Peax403.fasta \
+  --sjdbGTFfile ${scdir}/data/genomes/Peax403.cds.gff \
   --sjdbOverhang 124 \
   --sjdbGTFtagExonParentTranscript Parent \
   --genomeChrBinNbits 16 --limitGenomeGenerateRAM 24000000000
