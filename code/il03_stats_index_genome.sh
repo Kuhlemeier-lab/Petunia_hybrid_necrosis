@@ -14,7 +14,7 @@
 
 # Partition
 #SBATCH --partition=epyc2
-#SBATCH --account=ips_ck
+#SBATCH --account=xxx
 #SBATCH --chdir=/xxx/necrosis
 #SBATCH --output=code/il03_stats_index_genome_%A.out
 #SBATCH --error=code/il03_stats_index_genome_%A.err
@@ -57,7 +57,7 @@ module list 2>&1
 #echo -e "Quality stats done and stored in data/raw/raw_reads/stats_trimmed_reads.txt.\n"
 #
 ## Index genome
-genome=${scdir}/data/genomes/Peax402INV.fasta
+genome=${scdir}/data/genomes/Peax403.fasta
 #
 #bwa index ${genome}
 #samtools faidx ${genome}
