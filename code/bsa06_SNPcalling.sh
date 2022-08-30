@@ -32,7 +32,7 @@ module add UHTS/Analysis/vcftools/0.1.15
 echo -e "## `date`\n## Call variants.\n"
 
 GenomeAnalysisTK HaplotypeCaller \
-    -R ${scdir}/data/genomes/Peax402INV.fasta \
+    -R ${scdir}/data/genomes/Peax403.fasta \
     -I ${scdir}/data/raw/bsa_aligned_reads/SRR13907523.sp.bam \
     -I ${scdir}/data/raw/bsa_aligned_reads/SRR13907524.sp.bam \
     --dont-use-soft-clipped-bases \
